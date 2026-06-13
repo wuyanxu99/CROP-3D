@@ -1,0 +1,14 @@
+# High-level reconstruction settings used by the paper artifact examples.
+colmap:
+  mode: multi_camera
+  scale_alignment: apriltag
+depth_prior:
+  model_family: Depth Anything 3
+  alignment: colmap_sparse_affine
+gaussian_splatting:
+  base_method: 2D Gaussian Splatting
+  outputs:
+    - rendered_views
+    - point_cloud
+    - mesh_or_surface_visualizations
+

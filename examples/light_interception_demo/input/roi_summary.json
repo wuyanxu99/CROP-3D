@@ -1,0 +1,163 @@
+{
+  "input_ply": "light/pointcloud/point_cloud.ply",
+  "input_point_count": 1210974,
+  "roi_raw_point_count": 187859,
+  "green_candidate_count": 23786,
+  "dense_candidate_count": 18966,
+  "component_removed_candidate_count": 239,
+  "plant_filtered_point_count": 18727,
+  "removed_point_count": 169132,
+  "filter_ratios": {
+    "roi_over_input": 0.15513049826007824,
+    "green_candidate_over_roi": 0.1266162387748258,
+    "dense_candidate_over_roi": 0.10095869774671429,
+    "component_removed_over_dense_candidate": 0.0126014974164294,
+    "plant_filtered_over_roi": 0.09968646697789299,
+    "removed_over_roi": 0.900313533022107
+  },
+  "raw_rack_coordinate_bounds": {
+    "x": [
+      -1.4190740585327148,
+      10.130830764770508
+    ],
+    "y": [
+      -0.24649782478809357,
+      1.5290119647979736
+    ],
+    "z": [
+      -0.6862996220588684,
+      1.5804954767227173
+    ]
+  },
+  "local_coordinate_bounds_roi": {
+    "x": [
+      2.2608990093431203e-06,
+      1.4999862909317017
+    ],
+    "y": [
+      8.726826763449935e-07,
+      0.5599502921104431
+    ],
+    "z": [
+      2.652406692504883e-06,
+      0.4499719440937042
+    ]
+  },
+  "local_coordinate_bounds_plant_filtered": {
+    "x": [
+      0.01337158028036356,
+      1.4464590549468994
+    ],
+    "y": [
+      0.1031772568821907,
+      0.43916940689086914
+    ],
+    "z": [
+      0.17677441239356995,
+      0.3636799156665802
+    ]
+  },
+  "local_coordinate_bounds_removed": {
+    "x": [
+      2.2608990093431203e-06,
+      1.4999862909317017
+    ],
+    "y": [
+      8.726826763449935e-07,
+      0.5599502921104431
+    ],
+    "z": [
+      2.652406692504883e-06,
+      0.4499719440937042
+    ]
+  },
+  "global_coordinate_bounds_roi": {
+    "x": [
+      2.2608990093431203e-06,
+      1.4999862909317017
+    ],
+    "y": [
+      8.726826763449935e-07,
+      0.5599502921104431
+    ],
+    "z": [
+      0.275002658367157,
+      0.7249719500541687
+    ]
+  },
+  "global_coordinate_bounds_plant_filtered": {
+    "x": [
+      0.01337158028036356,
+      1.4464590549468994
+    ],
+    "y": [
+      0.1031772568821907,
+      0.43916940689086914
+    ],
+    "z": [
+      0.4517744183540344,
+      0.6386799216270447
+    ]
+  },
+  "global_coordinate_bounds_removed": {
+    "x": [
+      2.2608990093431203e-06,
+      1.4999862909317017
+    ],
+    "y": [
+      8.726826763449935e-07,
+      0.5599502921104431
+    ],
+    "z": [
+      0.275002658367157,
+      0.7249719500541687
+    ]
+  },
+  "ply_outputs": {
+    "global_overlay": [
+      "roi_global.ply",
+      "plant_global.ply"
+    ],
+    "local_calculation": [
+      "plant_local.ply"
+    ],
+    "optional_debug": []
+  },
+  "figure_outputs": [
+    "roi_qc_3d.png"
+  ],
+  "origin_offset_rack_to_light": {
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0.275
+  },
+  "coord_mode": "xyz",
+  "flip_light_y": false,
+  "domain_light_coordinates": {
+    "x": [
+      0.0,
+      1.5
+    ],
+    "y": [
+      0.0,
+      0.56
+    ],
+    "z": [
+      0.0,
+      0.45
+    ]
+  },
+  "thresholds": {
+    "z_filter_min": 0.02,
+    "green_min": 0.18,
+    "exg_min": 0.05,
+    "green_dominance_min": 0.02,
+    "saturation_min": 0.08,
+    "voxel_size": 0.01,
+    "min_voxel_points": 3,
+    "component_voxel_size": 0.03,
+    "min_component_points": 80,
+    "min_component_voxels": 3
+  },
+  "rgb_source": "sh_dc"
+}

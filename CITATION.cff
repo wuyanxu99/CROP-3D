@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use this paper artifact, please cite the accompanying CROP-3D paper."
+title: "CROP-3D: Real-Scene Crop Reconstruction and Phenotyping with 2D Gaussian Splatting"
+authors:
+  - family-names: "To be updated"
+    given-names: "To be updated"
+version: 0.1.0
+date-released: 2026-06-10
+repository-code: "https://github.com/<your-org>/CROP-3D"
+license: "LicenseRef-Pending"
+

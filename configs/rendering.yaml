@@ -1,0 +1,10 @@
+# Fixed-view rendering slots used for qualitative figures.
+views:
+  - name: overall_far
+  - name: middle_section
+  - name: close_detail
+  - name: ultra_close_pot
+media:
+  teaser_seconds: 8-15
+  high_resolution_video: external_release_or_zenodo
+

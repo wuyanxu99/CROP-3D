@@ -1,0 +1,14 @@
+# Demo measurement configuration for the CROP-3D paper artifact.
+plant_height:
+  ground_z_m: 0.46
+  segmentation_mode: adaptive_soft_growth
+  top_strategy: topk_median
+  top_k: 12
+light_interception:
+  surface_mode: oriented_disk_splat
+  voxel_size_m: 0.002
+  splat_radius_m: 0.006
+  disk_thickness_m: 0.002
+  normal_radius_m: 0.018
+  default_setting: 240
+

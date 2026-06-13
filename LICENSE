@@ -1,0 +1,11 @@
+License placeholder for the CROP-3D paper artifact.
+
+The intended release separates code, demo data, trained models, and media:
+
+- Code: to be released under a permissive open-source license selected by the authors before public upload.
+- Demo data: for research and review use, subject to final dataset permission review.
+- Full dataset: not included in this repository; availability will be documented in `docs/dataset.md`.
+- Model checkpoints and high-resolution videos: not included in this repository; links will be documented in `docs/model_weights.md` and the project README.
+
+Before making this repository public, replace this placeholder with the final license text and confirm third-party license compatibility for 2DGS, COLMAP-related utilities, Depth Anything-derived components, and copied evaluation code.
+

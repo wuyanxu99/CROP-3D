@@ -1,0 +1,39 @@
+# Python caches and local environments
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+.venv-*/
+.conda/
+
+# Generated demo outputs
+outputs/
+work_dirs/
+
+# Local experiment and tracking artifacts
+wandb/
+runs/
+logs/
+*.log
+
+# Large raw data and model artifacts that should live in Releases, Zenodo, or Hugging Face
+data/raw/
+data/full/
+checkpoints/*.pth
+checkpoints/*.pt
+checkpoints/*.safetensors
+**/database.db
+**/database.db-*
+**/top_voxels_setting_*.csv
+**/point_cloud.ply
+
+# Keep curated demo/media assets trackable
+!examples/**/.gitkeep
+!examples/**/plant_local.ply
+!examples/**/canopy.ply
+!media/*.png
+!media/*.gif
+!examples/**/*.csv
+!examples/**/*.json
