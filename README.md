@@ -2,33 +2,50 @@
 
 **CROP-3D** is a paper artifact for real-scene crop reconstruction and phenotyping. It packages a compact, readable version of the research workflow around multi-view COLMAP/2D Gaussian Splatting reconstruction, metric alignment, plant-height measurement, and canopy light-interception estimation.
 
-![CROP-3D teaser](media/teaser.gif)
+<div align="center">
+  <img src="media/teaser.gif" alt="CROP-3D teaser" width="85%" />
+</div>
 
 ![Pipeline](media/pipeline.png)
 
 ## What This Repository Contains
 
-This repository is designed as a **paper project page + reproducible demo package**, not a full raw-data release. It focuses on code structure, small examples, and curated visual outputs.
+This repository is designed as a **paper project page + reproducible demo package**, not a full raw-data release. It focuses on code structure, small examples, and curated visual outputs. Components follow the full pipeline order: **2DGS reconstruction → plant-height phenotyping → canopy light interception**.
 
-| Component | Status |
-| --- | --- |
-| Core demo code | Included |
-| Plant-height demo assets | Included |
-| Light-interception demo assets | Included |
-| 2DGS training code | Included |
-| One-command reconstruction entry | `quick_start.py` |
-| Full raw image/video dataset | External / available upon request |
-| Full trained reconstruction outputs | External / available upon request |
-| Model checkpoints and HD videos | External release planned |
-| Training scripts | Included as cleaned research copies |
+| Component | Path | Status |
+| --- | --- | --- |
+| **2DGS reconstruction** | | |
+| One-command reconstruction entry | `quick_start.py` | Included |
+| 2DGS training / render / metrics | `crop3d/reconstruction/twodgs/` | Included |
+| COLMAP, AprilTag alignment, DA3 depth priors | `crop3d/reconstruction/` | Included |
+| 2DGS rasterization extensions | `crop3d/reconstruction/submodules/` | Included |
+| Reconstruction smoke-test images | `examples/reconstruction_demo/images/` | Included |
+| Fixed-view visualization | `crop3d/visualization/`, `media/reconstruction_fixed_view.png` | Included |
+| **Plant-height phenotyping** | | |
+| Height measurement code | `crop3d/phenotyping/plant_height/` | Included |
+| Demo runner | `scripts/run_plant_height_demo.py` | Included |
+| Demo point cloud and GT | `examples/plant_height_demo/input/` | Included |
+| Reference metrics and figures | `examples/plant_height_demo/reference_output/` | Included |
+| Regenerated demo outputs | `outputs/plant_height/` | Generated on run |
+| **Canopy light interception** | | |
+| Interception and ROI code | `crop3d/phenotyping/light_interception/` | Included |
+| Demo runner | `scripts/run_light_interception_demo.py` | Included |
+| PPFD light-field model and ROI inputs | `examples/light_interception_demo/input/` | Included |
+| Five-region comparison assets | `examples/light_interception_demo/five_regions/` | Included |
+| Reference interception summary | `examples/light_interception_demo/reference_output/` | Included |
+| Regenerated demo outputs | `outputs/light_interception/` | Generated on run |
+| **External / not in Git** | | |
+| Full raw image/video dataset | — | External / available upon request |
+| Full trained reconstruction outputs | — | External / available upon request |
+| Large checkpoints and HD videos | `checkpoints/`, see `docs/model_weights.md` | External release planned |
 
 ## Highlights
 
 ![Qualitative results](media/qualitative_results.png)
 
-- Multi-camera real-scene reconstruction workflow with COLMAP, physical scale alignment, DA3 depth priors, and 2D Gaussian Splatting.
-- Plant-height measurement from reconstructed point clouds using adaptive canopy segmentation and fixed metric ground reference.
-- Canopy light-interception estimation using a measured PPFD light-field model and oriented disk surface completion.
+- Multi-camera real-scene **2DGS reconstruction** with COLMAP, physical scale alignment, DA3 depth priors, and 2D Gaussian Splatting (`crop3d/reconstruction/`).
+- **Plant-height** measurement from reconstructed point clouds using adaptive canopy segmentation and fixed metric ground reference (`crop3d/phenotyping/plant_height/`).
+- **Canopy light-interception** estimation using a measured PPFD light-field model and oriented disk surface completion (`crop3d/phenotyping/light_interception/`).
 
 ## Quick Start
 
