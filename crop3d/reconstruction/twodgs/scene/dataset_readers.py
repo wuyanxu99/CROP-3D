@@ -173,7 +173,8 @@ def readColmapCameras(cam_extrinsics, cam_intrinsics, images_folder):
         else:
             assert False, "Colmap camera model not handled: only undistorted datasets (PINHOLE or SIMPLE_PINHOLE cameras) supported!"
 
-        # COLMAP Image.name 为相对 images/ 的路径；多相机时为 cam_xxx/frame.jpg，不可用 basename
+        # COLMAP Image.name is a path relative to images/. For multi-camera data
+        # it looks like cam_xxx/frame.jpg, so basename alone is not enough.
         image_path = image_path_under_images_dir(images_folder, extr.name)
         image_name = image_name_from_colmap_rel(extr.name)
         image = Image.open(image_path)

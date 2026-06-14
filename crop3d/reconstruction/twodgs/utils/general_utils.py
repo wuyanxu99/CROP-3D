@@ -171,7 +171,8 @@ def colormap(img, cmap='jet'):
     fig.tight_layout()
     canvas = fig.canvas
     canvas.draw()
-    # matplotlib >= 3.8 移除 tostring_rgb；优先 buffer_rgba（取 RGB 通道）
+    # matplotlib >= 3.8 removed tostring_rgb; prefer buffer_rgba and keep RGB
+    # channels only.
     if hasattr(canvas, "buffer_rgba"):
         data = np.asarray(canvas.buffer_rgba(), dtype=np.uint8)[..., :3]
     else:

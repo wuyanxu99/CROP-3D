@@ -5,7 +5,7 @@ This script orchestrates the existing research workflow without rewriting the
 individual reconstruction stages:
 
 1. Prepare a scene folder with ``images/<camera_name>/...``.
-2. Run multi-camera COLMAP via ``crop3d/reconstruction/run_colmap_demo.py``.
+2. Run multi-camera COLMAP with fixed intrinsics via ``crop3d/reconstruction/run_colmap_demo.py``.
 3. Optionally align the sparse model to AprilTag metric coordinates.
 4. Optionally generate DA3 depth priors.
 5. Convert COLMAP cameras.bin to PINHOLE for the 2DGS loader.
@@ -35,6 +35,8 @@ PROJECT_ROOT = Path(__file__).resolve().parent
 TWODGS_ROOT = PROJECT_ROOT / "crop3d" / "reconstruction" / "twodgs"
 DEFAULT_PYTHON = sys.executable
 IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png"}
+DEFAULT_CAMERA_MODEL = "OPENCV"
+DEFAULT_CAMERA_PARAMS = "1407.0,1408.3,986.7009,518.1291,-0.0331,0.0209,0,0"
 
 
 def parse_args() -> argparse.Namespace:
@@ -108,9 +110,18 @@ def parse_args() -> argparse.Namespace:
         default="colmap",
         help="COLMAP executable. If 'colmap' is not on PATH, the current Python env's bin/colmap is tried.",
     )
-    parser.add_argument("--camera-model", default="OPENCV")
-    parser.add_argument("--camera-params", default="", help="Shared camera params; empty lets COLMAP initialize them.")
-    parser.add_argument("--use-camera-intrinsics", action="store_true", help="Pass --camera_params to COLMAP.")
+    parser.add_argument("--camera-model", default=DEFAULT_CAMERA_MODEL)
+    parser.add_argument(
+        "--camera-params",
+        default=DEFAULT_CAMERA_PARAMS,
+        help="Shared fixed camera params passed to COLMAP and DA3.",
+    )
+    parser.add_argument(
+        "--use-camera-intrinsics",
+        default=True,
+        action=argparse.BooleanOptionalAction,
+        help="Use fixed camera intrinsics in COLMAP.",
+    )
     parser.add_argument("--sequential-overlap", type=int, default=28)
     parser.add_argument("--cross-camera-max-frame-delta", type=int, default=4)
     parser.add_argument("--cross-camera-max-neighbors", type=int, default=4)
@@ -534,7 +545,7 @@ def run_da3_depth(args: argparse.Namespace, scene: Path) -> None:
         "--device",
         args.da3_device,
         "--camera_params",
-        "",
+        args.camera_params,
         "--da3-process-res",
         str(args.da3_process_res),
         "--window-size",

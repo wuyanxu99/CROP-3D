@@ -36,24 +36,26 @@ from utils.system_utils import searchForMaxIteration
 
 
 # ============================================================================
-# 用户配置区
-# 日常使用时只需要修改这一段。
-# 运行方式: python render_fixed_views.py
+# User configuration
+# For day-to-day use, only edit this block.
+# Run with: python render_fixed_views.py
 # ============================================================================
 
-# 你平时只需要改这里。
-# 每项格式: "<scene_name>/<run_name>"，例如 "4.13RLU/04-20_13:12"
+# Adjust this section as needed.
+# Each entry should look like "<scene_name>/<run_name>", for example
+# "4.13RLU/04-20_13:12".
 MODEL_RUNS = [
     "demo_scene/demo_run",
 ]
 
-# 默认加载最近一次保存的 iteration；如需固定某次迭代，可改成具体数字。
+# Load the most recently saved iteration by default; set a concrete value to
+# render a specific checkpoint.
 MODEL_DEFAULT_ITERATION = -1
 
-# 导出模式：
-#   "images" 只导出固定视角图片
-#   "videos" 只导出轨迹视频
-#   "both"   图片和视频都导出
+# Export mode:
+#   "images" exports fixed-view images only
+#   "videos" exports trajectory videos only
+#   "both"   exports both images and videos
 EXPORT_MODE = "images"
 
 
@@ -61,7 +63,7 @@ def _normalize_model_run(model_run: str) -> str:
     normalized = str(model_run).replace("\\", "/").strip().strip("/")
     if "/" not in normalized:
         raise ValueError(
-            f"MODEL_RUNS 中的路径格式必须类似 '4.13RLU/04-20_13:12'，当前得到: {model_run}"
+            f"MODEL_RUNS paths should look like '4.13RLU/04-20_13:12'; got: {model_run}"
         )
     return normalized
 
@@ -86,27 +88,27 @@ MODEL_SPECS = [_build_model_spec_from_run(model_run) for model_run in MODEL_RUNS
 
 OUTPUT_ROOT = PROJECT_ROOT / "outputs" / "fixed_view_renders" / _default_output_root_name(MODEL_RUNS)
 
-# 如果为 None，则从 MODEL_SPECS[0]/cfg_args 中读取 source_path。
-# 默认会自动推导为 "./data/<scene_name>"。
+# If None, read source_path from MODEL_SPECS[0]/cfg_args.
+# The default is inferred as "./data/<scene_name>".
 REFERENCE_SOURCE_PATH = f"./examples/reconstruction_demo/{_normalize_model_run(MODEL_RUNS[0]).split('/', 1)[0]}"
 
-# 如果为 None，则使用训练配置里的白底/黑底设置。
-BACKGROUND_COLOR_OVERRIDE = None  # 示例: [0.0, 0.0, 0.0]
+# If None, use the background color from the training configuration.
+BACKGROUND_COLOR_OVERRIDE = None  # Example: [0.0, 0.0, 0.0]
 
-# gaussian_renderer.render(...) 使用的管线设置
+# Pipeline settings used by gaussian_renderer.render(...)
 PIPELINE_DEPTH_RATIO = 0.0
 
-# 如果不为 None，则所有基于 COLMAP 选出的视角都会统一缩放到这个输出分辨率。
-# 如果希望和原始相机严格一致，建议保持相同的宽高比。
-OUTPUT_RESOLUTION_OVERRIDE = None  # 示例: (1920, 1080)
+# If not None, all COLMAP-selected views are resized to this output
+# resolution. Keep the aspect ratio consistent with the original cameras.
+OUTPUT_RESOLUTION_OVERRIDE = None  # Example: (1920, 1080)
 
-# 用于多模型横向对比的默认 COLMAP 推荐视角。
-# 当前先关闭，改为只渲染下面手动配置的 3 张图。
+# Default COLMAP-recommended views for multi-model comparison.
+# Disabled for now; we render only the three manually configured images below.
 USE_COLMAP_RECOMMENDED_VIEWS = False
 RECOMMENDED_VIEW_LABELS = ["start", "quarter", "middle", "three_quarter", "end"]
 
-# 手动定义 look-at 视角时使用的默认内参。
-# 另一种写法:
+# Default intrinsics used for manual look-at views.
+# Alternative form:
 # DEFAULT_MANUAL_INTRINSICS = {
 #     "intrinsics_from": {"kind": "recommended", "label": "middle"}
 # }
@@ -116,12 +118,13 @@ DEFAULT_MANUAL_INTRINSICS = {
     "fov_y_deg": 40.0,
 }
 
-# 场景辅助标记叠加。
-# 这些标记是后处理叠加在渲染图上的，不参与高斯渲染本身。
-# 当前坐标语义与 AprilTag 对齐脚本保持一致：
-#   +X 朝右
-#   +Y 朝里
-#   +Z 朝上
+# Scene overlay markers.
+# These annotations are composited after rendering and do not affect the
+# Gaussian rendering itself.
+# The coordinate semantics match the AprilTag alignment script:
+#   +X points right
+#   +Y points inward
+#   +Z points upward
 SCENE_OVERLAY = {
     "enabled": False,
     "apply_to_images": False,
@@ -158,16 +161,17 @@ SCENE_OVERLAY = {
     },
 }
 
-# 固定图片视角配置。支持的 kind:
+# Fixed image view configuration. Supported kinds:
 # 1) {"name": "...", "kind": "colmap_index", "index": 10}
 # 2) {"name": "...", "kind": "colmap_name", "image_name": "cam_a/frame_0001"}
 # 3) {"name": "...", "kind": "recommended", "label": "middle"}
 # 4) {"name": "...", "kind": "look_at", "position": [...], "look_at": [...], "up": [...]}
 #
-# 对于 kind="look_at"，可以额外覆盖内参:
-# width / height / fov_y_deg，或者 fx / fy，或者 intrinsics_from。
+# For kind="look_at", you can additionally override intrinsics with:
+# width / height / fov_y_deg, or fx / fy, or intrinsics_from.
 IMAGE_VIEW_SPECS = [
-    # 0. 辅助视角示例：从 y 负方向看向原点，用来确认原点位置
+    # 0. Helper example: look toward the origin from negative y to verify the
+    # origin placement.
     # {
     #     "name": "00_origin_from_neg_y",
     #     "kind": "look_at",
@@ -178,7 +182,8 @@ IMAGE_VIEW_SPECS = [
     #     "height": 1080,
     #     "fov_y_deg": 60.0,
     # },
-    # 1. 固定 x=3.84，按最新标定坐标系（+X 右 / +Y 里 / +Z 上）调整后的中远景
+    # 1. Fixed x=3.84, updated for the latest calibration frame
+    # (+X right / +Y inward / +Z upward), medium-far view.
     {
         "name": "01_overall_far",
         "kind": "look_at",
@@ -189,7 +194,7 @@ IMAGE_VIEW_SPECS = [
         "height": 1440,
         "fov_y_deg": 45.0,
     },
-    # 2. 保持同一朝向关系，向目标推进到中景
+    # 2. Keep the same orientation and move closer to a medium view.
     {
         "name": "02_middle_section",
         "kind": "look_at",
@@ -200,7 +205,7 @@ IMAGE_VIEW_SPECS = [
         "height": 1440,
         "fov_y_deg": 40.0,
     },
-    # 3. 保持同一朝向关系，继续推进到近景
+    # 3. Keep the same orientation and move into a close view.
     {
         "name": "03_close_detail",
         "kind": "look_at",
@@ -211,7 +216,7 @@ IMAGE_VIEW_SPECS = [
         "height": 1440,
         "fov_y_deg": 35.0,
     },
-    # 4. 沿近景视角继续推进，只覆盖一个盆附近的超近景
+    # 4. Continue moving closer to cover an ultra-close view around one pot.
     {
         "name": "04_ultra_close_pot",
         "kind": "look_at",
@@ -224,9 +229,11 @@ IMAGE_VIEW_SPECS = [
     },
 ]
 
-# 直线视频轨迹配置。
-# 1) 若只写 look_at：相机会从 start_position 线性移动到 end_position，并始终朝向固定 look_at
-# 2) 若写 start_look_at / end_look_at：相机位置与注视点都会线性插值，更适合保持固定观察角度
+# Linear video trajectory configuration.
+# 1) If only look_at is specified, the camera moves linearly from
+#    start_position to end_position while always looking at the fixed target.
+# 2) If start_look_at / end_look_at are specified, both camera position and
+#    target are interpolated linearly, which better preserves the viewing angle.
 VIDEO_TRAJECTORIES = [
     # {
     #     "enabled": True,

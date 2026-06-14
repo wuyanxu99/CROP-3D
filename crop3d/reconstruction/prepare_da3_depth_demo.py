@@ -1136,8 +1136,8 @@ def main():
     records, _records_by_id = _build_image_records(extrinsics, cam_intrinsics, image_dir, args.camera_params.strip())
     if args.camera_params.strip() and len(cam_intrinsics) > 1:
         print(
-            "[WARN] --camera_params overrides all camera IDs. For multi-camera scenes "
-            "with different intrinsics, leave --camera_params empty to use COLMAP intrinsics."
+            "[INFO ] Using shared --camera_params for all camera IDs. This is expected "
+            "when the scene uses one fixed intrinsics set across cameras."
         )
 
     # 2. Load DA3 model.

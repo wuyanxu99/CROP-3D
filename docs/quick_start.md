@@ -46,11 +46,14 @@ python quick_start.py \
   --save-iterations 10
 ```
 
-The script prepares `scene/images/<camera>/`, runs COLMAP, optionally applies AprilTag metric alignment, optionally generates DA3 depth priors, converts COLMAP `cameras.bin` to `PINHOLE`, and then calls the packaged 2DGS training entry `crop3d/reconstruction/twodgs/train.py`.
+The script prepares `scene/images/<camera>/`, runs COLMAP with fixed shared intrinsics, optionally applies AprilTag metric alignment, optionally generates DA3 depth priors, converts COLMAP `cameras.bin` to `PINHOLE`, and then calls the packaged 2DGS training entry `crop3d/reconstruction/twodgs/train.py`.
 
 Images are copied into the scene by default. Avoid symlinked images for COLMAP
 runs because COLMAP may resolve the real path and break
 `single_camera_per_folder` camera grouping.
+
+DA3 also receives the same fixed camera parameters by default so the later
+steps stay on the same intrinsics set.
 
 AprilTag alignment and DA3 depth priors are disabled by default so that small
 smoke-test datasets without tags or local DA3 weights can run through COLMAP,

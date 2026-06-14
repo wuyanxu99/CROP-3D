@@ -12,10 +12,13 @@ CROP-3D is the paper artifact and project homepage for real-scene crop reconstru
 
 <div align="center">
   <img src="media/teaser.gif" alt="CROP-3D teaser" width="85%" />
+  <p><em>Reconstructed 3D model of the plant factory (the GIF is compressed, and the actual model is more detailed).</em></p>
 </div>
 
 <p align="center">
   <img src="media/pipeline.png" alt="CROP-3D pipeline" width="95%" />
+  <br />
+  <em>Metric 3D reconstruction workflow of CROP-3D</em>
 </p>
 
 ## Overview
@@ -59,6 +62,8 @@ python quick_start.py \
   --dry-run \
   --skip-train
 ```
+
+This pipeline uses fixed shared intrinsics by default for COLMAP and DA3.
 
 Run the compact demos:
 
