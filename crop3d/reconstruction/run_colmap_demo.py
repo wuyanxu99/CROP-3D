@@ -64,6 +64,8 @@ SIFT_PEAK_THRESHOLD = "0.0020"
 SIFT_ESTIMATE_AFFINE_SHAPE = 1
 SIFT_DOMAIN_SIZE_POOLING = 1
 SIFT_GUIDED_MATCHING = 1
+SIFT_USE_GPU = 0
+SIFT_MATCHING_USE_GPU = 1
 SIFT_NUM_THREADS = 6
 SIFT_MAX_IMAGE_SIZE = None
 
@@ -211,6 +213,8 @@ def run_cmd(
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             text=True,
+            encoding="utf-8",
+            errors="replace",
             bufsize=1,
         )
         assert proc.stdout is not None
@@ -763,6 +767,8 @@ def build_feature_extractor_cmd(
         str(config.estimate_affine_shape),
         "--SiftExtraction.domain_size_pooling",
         str(config.domain_size_pooling),
+        "--FeatureExtraction.use_gpu",
+        str(SIFT_USE_GPU),
     ]
     if config.use_camera_intrinsics:
         if not config.camera_params:
@@ -788,6 +794,8 @@ def build_sequential_matcher_cmd(paths: ScenePaths, feature: FeatureConfig, over
         "1",
         "--FeatureMatching.guided_matching",
         str(feature.guided_matching),
+        "--FeatureMatching.use_gpu",
+        str(SIFT_MATCHING_USE_GPU),
     ]
 
 
@@ -799,6 +807,8 @@ def build_matches_importer_cmd(paths: ScenePaths) -> list[str]:
         str(paths.db_path),
         "--match_list_path",
         str(paths.match_list_path),
+        "--FeatureMatching.use_gpu",
+        str(SIFT_MATCHING_USE_GPU),
     ]
 
 
